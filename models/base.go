@@ -13,6 +13,8 @@ import (
 // RegisterModel to register table
 func RegisterModel() {
 	orm.RegisterModel(new(Product))
+	orm.RegisterModel(new(Pemesanan))
+
 }
 
 // CreateTableProduct create table product
@@ -39,6 +41,41 @@ func CreateTableProduct() {
 
 	if err != nil {
 		beego.Warning("error creating table product", err)
+	}
+
+	beego.Debug(res)
+
+}
+
+// CreateTablePemesanan create table product
+func CreateTablePemesanan() {
+	o := orm.NewOrm()
+	o.Using("default")
+	var order Pemesanan
+
+	qb := []string{
+		"CREATE TABLE IF NOT EXISTS",
+		order.TableName(),
+		"(",
+		"id INTEGER PRIMARY KEY,",
+		"sku TEXT,",
+		"nama_item TEXT,",
+		"no_kwitansi TEXT,",
+		"jumlah_pesanan INTEGER,",
+		"jumlah_diterima INTEGER,",
+		"harga INTEGER,",
+		"catatan TEXT,",
+		"waktu TIMESTAMP DEFAULT CURRENT_TIMESTAMP,",
+		"total INTEGER,",
+		"status TEXT);",
+	}
+
+	sql := strings.Join(qb, " ")
+	beego.Debug(sql)
+	res, err := o.Raw(sql).Exec()
+
+	if err != nil {
+		beego.Warning("error creating table pemesanan", err)
 	}
 
 	beego.Debug(res)

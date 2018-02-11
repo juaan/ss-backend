@@ -31,6 +31,8 @@ func registerSQLite() {
 
 	models.RegisterModel()
 	models.CreateTableProduct()
+	models.CreateTablePemesanan()
+
 	models.MigrateDataProduct()
 
 }
