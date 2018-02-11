@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "SKU": "SSI-D00791015-LL-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "ukuran": "L",
+    "warna": "Broken White",
+    "jumlah": 154
+  },
+  {
+    "id": 2,
+    "SKU": "SSI-D00791077-MM-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "ukuran": "M",
+    "warna": "Broken White",
+    "jumlah": 138
+  },
+  {
+    "id": 3,
+    "SKU": "SSI-D00791091-XL-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "ukuran": "XL",
+    "warna": "Broken White",
+    "jumlah": 137
+  },
+  {
+    "id": 4,
+    "SKU": "SSI-D00864612-LL-NAV",
+    "nama_item": "Deklia Plain Casual Blouse",
+    "ukuran": "L",
+    "warna": "Navy",
+    "jumlah": 8
+  },
+  {
+    "id": 5,
+    "SKU": "SSI-D01037807-X3-BWH",
+    "nama_item": "Dellaya Plain Loose Big Blouse",
+    "ukuran": "XXXL",
+    "warna": "Broken White",
+    "jumlah": 74
+  }
+]
