@@ -56,7 +56,7 @@ func (p *Product) AddProduct() error {
 	return nil
 }
 
-// UpdateProduct ...
+// UpdateProduct used for update product name , sku, ukuran, warna
 func (p *Product) UpdateProduct() error {
 	o := orm.NewOrm()
 	qb, errQB := orm.NewQueryBuilder("mysql")

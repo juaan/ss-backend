@@ -10,7 +10,6 @@ Package=(
 		"github.com/astaxie/beego"
 		"github.com/smartystreets/goconvey/convey"
 		"github.com/mattn/go-sqlite3"
-		"github.com/jannes-sa/easycsv"
 		)
 
 arrayPackage=${#Package[@]}

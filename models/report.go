@@ -38,7 +38,9 @@ type ReportPenjualan struct {
 // 	return "product"
 // }
 
-// GetAll ReportNilaiBarang ...
+// GetAll ReportNilaiBarang
+// Asumsi : data master ada di table barang/product
+// jadi Nilai barang = total barang di table product * avg harga di table pemesanan
 func (p *ReportNilaiBarang) GetAll() ([]ReportNilaiBarang, error) {
 	// var products Product
 	var rep []ReportNilaiBarang
@@ -64,6 +66,8 @@ func (p *ReportNilaiBarang) GetAll() ([]ReportNilaiBarang, error) {
 }
 
 // GetAll for REPORT laba
+// Asumsi : data master ada di table barang/product
+// melakukan join 3 table untuk mendapatkan product, harga rata2, harga jual
 func (l *ReportPenjualan) GetAll(query RequestGet) ([]ReportPenjualan, error) {
 	// var products Product
 	var rep []ReportPenjualan
@@ -97,7 +101,7 @@ func (l *ReportPenjualan) GetAll(query RequestGet) ([]ReportPenjualan, error) {
 	return rep, nil
 }
 
-// GetAllAndWriteCSV ReportNilaiBarang ...
+// GetAllAndWriteCSV get ReportNilaiBarang dan Mengenerate file csv
 func (p *ReportNilaiBarang) GetAllAndWriteCSV(path string) error {
 	// var products Product
 	var rep []ReportNilaiBarang
@@ -127,7 +131,7 @@ func (p *ReportNilaiBarang) GetAllAndWriteCSV(path string) error {
 	return nil
 }
 
-// GetAllAndWriteCSV for REPORT laba
+// GetAllAndWriteCSV get ReportPenjualan dan Mengenerate file csv
 func (l *ReportPenjualan) GetAllAndWriteCSV(query RequestGet,
 	path string) error {
 

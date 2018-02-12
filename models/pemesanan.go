@@ -64,7 +64,6 @@ func (p *Pemesanan) GetAll(query RequestGet) ([]Pemesanan, error) {
 // AddPemesanan untuk memasukkan record barang masuk ...
 func (p *Pemesanan) AddPemesanan() error {
 	o := orm.NewOrm()
-
 	// Insert
 	if p.JumlahPesanan == p.JumlahDiterima {
 		p.Status = "sukses"
@@ -97,7 +96,7 @@ func (p *Pemesanan) AddPemesanan() error {
 	return nil
 }
 
-// UpdatePesanan ...
+// UpdatePesanan to update pemesanana status etc
 func (p *Pemesanan) UpdatePesanan(req RequestUpdate) error {
 	// var resUpdate ResponseUpdatePemesanan
 	o := orm.NewOrm()
@@ -142,7 +141,7 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdate) error {
 		return errSQLOrder
 	}
 
-	// Update Product
+	// Update Product after update pemesanan selesai
 	errUpdateProd := updateProduct(req, p.SKU, "beli")
 	if errUpdateProd != nil {
 		beego.Warning("ERror update product", errUpdateProd)
@@ -153,6 +152,7 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdate) error {
 	return nil
 }
 
+// updateProduct that is used after update pemesanan done
 func updateProduct(req RequestUpdate, sku string, tipe string) error {
 	o := orm.NewOrm()
 	var prod Product

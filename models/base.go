@@ -174,3 +174,36 @@ func MigrateDataProduct(param string) {
 	}
 
 }
+
+func ResetDB() {
+	o := orm.NewOrm()
+	err := o.Begin()
+	if err != nil {
+		beego.Warning(err)
+	}
+	var pesan Pemesanan
+	var jual Penjualan
+	var item Product
+	res1, errRaw1 := o.Raw(`DELETE FROM ` + pesan.TableName()).Exec()
+	if errRaw1 != nil {
+		beego.Warning("error reset pemesanan", errRaw1)
+	}
+	// CheckErr("errRaw1", errRaw1)
+	res2, errRaw2 := o.Raw(`DELETE FROM ` + jual.TableName()).Exec()
+	if errRaw2 != nil {
+		beego.Warning("error reset Penjualan", errRaw2)
+	}
+	// CheckErr("errRaw2", errRaw2)
+	res3, errRaw3 := o.Raw(`DELETE FROM ` + item.TableName()).Exec()
+	if errRaw3 != nil {
+		beego.Warning("error reset Product", errRaw3)
+	}
+	// CheckErr("errRaw3", errRaw3)
+	err = o.Commit()
+	if err != nil {
+		beego.Warning(err)
+	}
+
+	beego.Debug(res1, res2, res3)
+
+}
