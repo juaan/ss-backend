@@ -23,13 +23,15 @@ RootDirectory
 ``` 
 cd $GOPATH/src
 
-git clone https://github.com/anthonyjuan/ss-backend.git
+~ git clone https://github.com/anthonyjuan/ss-backend.git
+~ cd ss-backend
+~ ./goget.sh
 
-cd ss-backend
+## run directly
+~ ./ss-backend
 
-./goget.sh
-
-./ss-backend
+## if you want to rebuild
+~ bee run
  ```
 
  # Feature
