@@ -14,14 +14,14 @@ RootDirectory
 └── views
 ```
 # API Documentation
- You can get all of the API lists here : [API Docs]("http://bit.ly/2Exavav")
+ You can get all of the API lists here : [API Docs](http://bit.ly/2Exavav)
 
 # How to use
 - Make sure you've Install and set golang environment in your device
 - clone the repository
 - in Terminal type this :
 ``` 
-cd $GOPATH
+cd $GOPATH/src
 
 git clone https://github.com/anthonyjuan/ss-backend.git
 
