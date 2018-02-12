@@ -17,16 +17,16 @@ type (
 // Get all data product
 func (c *PenjualanController) Get() {
 	var resp RespData
-	var order models.Pemesanan
+	var sell models.Penjualan
 
-	var reqDt = models.RequestPemesanan{
+	var reqDt = models.RequestGet{
 		FromDate: c.Ctx.Input.Query("fromDate"),
 		ToDate:   c.Ctx.Input.Query("toDate"),
 		Query:    c.Ctx.Input.Query("query"),
 	}
 
 	beego.Debug(reqDt)
-	res, errGet := order.GetAll(reqDt)
+	res, errGet := sell.GetAll(reqDt)
 	if errGet != nil {
 		resp.Error = errGet
 	} else {
@@ -38,50 +38,23 @@ func (c *PenjualanController) Get() {
 	}
 }
 
-// Post add new order
+// Post add new sell
 func (c *PenjualanController) Post() {
 	var resp RespData
-	var order models.Pemesanan
+	var sell models.Penjualan
 
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &order)
-
-	if err != nil {
-		beego.Warning("unmarshall req body failed")
-	}
-
-	errAdd := order.AddPemesanan()
-
-	if errAdd != nil {
-		resp.Error = errAdd
-	} else {
-		resp.Body = order
-
-	}
-	err = c.Ctx.Output.JSON(resp, false, false)
-	if err != nil {
-		beego.Warning("failed giving output", err)
-	}
-	// c.TplName = "index.tpl"
-}
-
-// Put to update existing order
-func (c *PenjualanController) Put() {
-	var resp RespData
-	var order models.Pemesanan
-	var req models.RequestUpdatePemesanan
-
-	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
+	err := json.Unmarshal(c.Ctx.Input.RequestBody, &sell)
 
 	if err != nil {
 		beego.Warning("unmarshall req body failed")
 	}
 
-	errAdd := order.UpdatePesanan(req)
+	errAdd := sell.AddPenjualan()
 
 	if errAdd != nil {
 		resp.Error = errAdd
 	} else {
-		resp.Body = order
+		resp.Body = sell
 
 	}
 	err = c.Ctx.Output.JSON(resp, false, false)

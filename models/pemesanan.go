@@ -17,25 +17,18 @@ type (
 		NoKwitansi     string    `json:"no_kwitansi" orm:"column(no_kwitansi)"`
 		JumlahPesanan  int64     `json:"jumlah_pesanan" orm:"column(jumlah_pesanan)"`
 		JumlahDiterima int64     `json:"jumlah_diterima" orm:"column(jumlah_diterima)"`
-		Harga          int64     `json:"harga" orm:"column(harga)"`
+		Harga          float64   `json:"harga" orm:"column(harga)"`
 		Catatan        string    `json:"catatan" orm:"column(catatan)"`
 		Waktu          time.Time `json:"waktu" orm:"column(waktu);auto_now_add;type(datetime)"`
-		Total          int64     `json:"total" orm:"column(total)"`
+		Total          float64   `json:"total" orm:"column(total)"`
 		Status         string    `json:"status" orm:"column(status)"`
 	}
 
-	// RequestPemesanan ...
-	RequestPemesanan struct {
+	// RequestGet ...
+	RequestGet struct {
 		FromDate string
 		ToDate   string
 		Query    string
-	}
-
-	// RequestUpdatePemesanan ...
-	RequestUpdatePemesanan struct {
-		JumlahPenambahan int64  `json:"jumlah_penambahan"`
-		IDPemesanan      int64  `json:"id_pemesanan"`
-		Catatan          string `json:"catatan"`
 	}
 )
 
@@ -45,7 +38,7 @@ func (p *Pemesanan) TableName() string {
 }
 
 // GetAll record barang masuk ...
-func (p *Pemesanan) GetAll(query RequestPemesanan) ([]Pemesanan, error) {
+func (p *Pemesanan) GetAll(query RequestGet) ([]Pemesanan, error) {
 	var brMasuk []Pemesanan
 	o := orm.NewOrm()
 	like := "%" + query.Query + "%"
@@ -79,7 +72,7 @@ func (p *Pemesanan) AddPemesanan() error {
 		p.Status = "pending"
 	}
 
-	p.Total = p.JumlahPesanan * p.Harga
+	p.Total = float64(p.JumlahPesanan) * p.Harga
 
 	id, err := o.Insert(p)
 	if err != nil {
@@ -89,12 +82,12 @@ func (p *Pemesanan) AddPemesanan() error {
 	p.ID = id
 
 	// Update Product
-	var req = RequestUpdatePemesanan{
-		JumlahPenambahan: p.JumlahDiterima,
-		IDPemesanan:      id,
-		Catatan:          p.Catatan,
+	var req = RequestUpdate{
+		Jumlah:  p.JumlahDiterima,
+		ID:      id,
+		Catatan: p.Catatan,
 	}
-	errUpdateProd := updateProduct(req, p.SKU)
+	errUpdateProd := updateProduct(req, p.SKU, "beli")
 	if errUpdateProd != nil {
 		beego.Warning("ERror update product", errUpdateProd)
 		return errUpdateProd
@@ -105,7 +98,7 @@ func (p *Pemesanan) AddPemesanan() error {
 }
 
 // UpdatePesanan ...
-func (p *Pemesanan) UpdatePesanan(req RequestUpdatePemesanan) error {
+func (p *Pemesanan) UpdatePesanan(req RequestUpdate) error {
 	// var resUpdate ResponseUpdatePemesanan
 	o := orm.NewOrm()
 	qb, errQB := orm.NewQueryBuilder("mysql")
@@ -114,24 +107,18 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdatePemesanan) error {
 		beego.Warning(errQB)
 		return errQB
 	}
-
-	errGetOrder := getOneOrder(p, req.IDPemesanan)
-
+	errGetOrder := getOneOrder(p, req.ID)
 	if errGetOrder != nil {
 		beego.Warning("Query get order failed")
 		beego.Warning(errGetOrder)
 		return errGetOrder
 	}
-
-	totalTerkini := p.JumlahDiterima + req.JumlahPenambahan
+	totalTerkini := p.JumlahDiterima + req.Jumlah
 	var stat string
 	if totalTerkini == p.JumlahPesanan {
-
 		stat = "sukses"
 	} else {
-
 		stat = "pending"
-
 	}
 	newCatatan := p.Catatan + ";" + req.Catatan
 	qb.Update(p.TableName()).Set(
@@ -146,12 +133,9 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdatePemesanan) error {
 	p.JumlahDiterima = totalTerkini
 	sqlForOrder := qb.String()
 
-	// sqlForOrder += "RETURNING sku, nama_item, no_kwitansi, jumlah_pesanan," +
-	// 	"jumlah_diterima, status"
-
 	beego.Debug(sqlForOrder)
-	_, errSQLOrder := o.Raw(sqlForOrder, req.JumlahPenambahan, newCatatan,
-		stat, req.IDPemesanan).Exec()
+	_, errSQLOrder := o.Raw(sqlForOrder, req.Jumlah, newCatatan,
+		stat, req.ID).Exec()
 	if errSQLOrder != nil {
 		beego.Debug("error while updating product")
 		beego.Debug(errSQLOrder)
@@ -159,7 +143,7 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdatePemesanan) error {
 	}
 
 	// Update Product
-	errUpdateProd := updateProduct(req, p.SKU)
+	errUpdateProd := updateProduct(req, p.SKU, "beli")
 	if errUpdateProd != nil {
 		beego.Warning("ERror update product", errUpdateProd)
 		return errUpdateProd
@@ -169,7 +153,7 @@ func (p *Pemesanan) UpdatePesanan(req RequestUpdatePemesanan) error {
 	return nil
 }
 
-func updateProduct(req RequestUpdatePemesanan, sku string) error {
+func updateProduct(req RequestUpdate, sku string, tipe string) error {
 	o := orm.NewOrm()
 	var prod Product
 	qb, errQB := orm.NewQueryBuilder("mysql")
@@ -179,13 +163,19 @@ func updateProduct(req RequestUpdatePemesanan, sku string) error {
 		return errQB
 	}
 
-	qb.Update(prod.TableName()).Set(
-		"jumlah = jumlah + ?",
-	).Where("sku = ?")
+	if tipe == "jual" {
+		qb.Update(prod.TableName()).Set(
+			"jumlah = jumlah - ?",
+		).Where("sku = ?")
+	} else if tipe == "beli" {
+		qb.Update(prod.TableName()).Set(
+			"jumlah = jumlah + ?",
+		).Where("sku = ?")
+	}
 
 	sqlProd := qb.String()
 
-	res, errSQL := o.Raw(sqlProd, req.JumlahPenambahan, sku).Exec()
+	res, errSQL := o.Raw(sqlProd, req.Jumlah, sku).Exec()
 	if errSQL != nil {
 		beego.Debug("error while updating product")
 		beego.Debug(errSQL)
@@ -203,12 +193,6 @@ func updateProduct(req RequestUpdatePemesanan, sku string) error {
 
 func getOneOrder(p *Pemesanan, id int64) error {
 	o := orm.NewOrm()
-	// qb, errQB := orm.NewQueryBuilder("mysql")
-	// if errQB != nil {
-	// 	beego.Warning("Query builder failed")
-	// 	beego.Warning(errQB)
-	// 	return errQB
-	// }
 
 	qb := []string{
 		"SELECT *",
@@ -217,12 +201,6 @@ func getOneOrder(p *Pemesanan, id int64) error {
 		"WHERE id = ?",
 	}
 	sqlForGetOrder := strings.Join(qb, " ")
-
-	// qb.Select(p.TableName()).Where("sku = ?")
-	// sqlForGetOrder := qb.String()
-	beego.Debug()
-
-	beego.Debug(sqlForGetOrder)
 	errSQLGetOrder := o.Raw(sqlForGetOrder, id).QueryRow(p)
 
 	if errSQLGetOrder != nil {

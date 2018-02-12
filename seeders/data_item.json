@@ -5,7 +5,7 @@
     "nama_item": "Zalekia Plain Casual Blouse",
     "ukuran": "L",
     "warna": "Broken White",
-    "jumlah": 154
+    "jumlah": 50
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "nama_item": "Zalekia Plain Casual Blouse",
     "ukuran": "M",
     "warna": "Broken White",
-    "jumlah": 138
+    "jumlah": 80
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "nama_item": "Zalekia Plain Casual Blouse",
     "ukuran": "XL",
     "warna": "Broken White",
-    "jumlah": 137
+    "jumlah": 40
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "nama_item": "Deklia Plain Casual Blouse",
     "ukuran": "L",
     "warna": "Navy",
-    "jumlah": 8
+    "jumlah": 35
   },
   {
     "id": 5,
@@ -37,6 +37,6 @@
     "nama_item": "Dellaya Plain Loose Big Blouse",
     "ukuran": "XXXL",
     "warna": "Broken White",
-    "jumlah": 74
+    "jumlah": 80
   }
 ]

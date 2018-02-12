@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "id_pesanan": "ID-20171130-531154",
+    "sku": "SSI-D01037807-X3-BWH",
+    "nama_item": "Dellaya Plain Loose Big Blouse",
+    "jumlah_keluar": 3,
+    "harga_jual": 125000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 375000
+  },
+  {
+    "id": 2,
+    "id_pesanan": "ID-20171201-427584",
+    "sku": "SSI-D01037807-X3-BWH",
+    "nama_item": "Dellaya Plain Loose Big Blouse",
+    "jumlah_keluar": 3,
+    "harga_jual": 130000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 390000
+  },
+  {
+    "id": 3,
+    "id_pesanan": "ID-20171201-081971",
+    "sku": "SSI-D00864612-LL-NAV",
+    "nama_item": "Deklia Plain Casual Blouse",
+    "jumlah_keluar": 2,
+    "harga_jual": 115000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 230000
+  },
+  {
+    "id": 4,
+    "id_pesanan": "ID-20171201-009890",    
+    "SKU": "SSI-D00791091-XL-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "jumlah_keluar": 2,
+    "harga_jual": 120000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 240000
+  },
+  {
+    "id": 5,
+    "id_pesanan": "ID-20171201-007229",        
+    "SKU": "SSI-D00791077-MM-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "jumlah_keluar": 4,
+    "harga_jual": 130000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 520000
+  },
+  {
+    "id": 6,
+    "id_pesanan": "ID-20171201-033674",        
+    "SKU": "SSI-D00791015-LL-BWH",
+    "nama_item": "Zalekia Plain Casual Blouse",
+    "jumlah_keluar": 2,
+    "harga_jual": 150000,
+    "catatan": "Pesanan ID-20180109-853724",
+    "waktu": "2018-02-11T19:21:21.260162+07:00",
+    "total": 300000
+  }
+]

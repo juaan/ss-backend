@@ -24,7 +24,7 @@ func registerSQLite() {
 		beego.Warning("error while register driver", errDriver)
 	}
 
-	errDB := orm.RegisterDataBase("default", "sqlite3", "file:data.db")
+	errDB := orm.RegisterDataBase("default", "sqlite3", "file:inventory.db")
 	if errDB != nil {
 		beego.Warning("error while register DB", errDB)
 	}
@@ -32,7 +32,10 @@ func registerSQLite() {
 	models.RegisterModel()
 	models.CreateTableProduct()
 	models.CreateTablePemesanan()
+	models.CreateTablePenjualan()
 
-	models.MigrateDataProduct()
+	models.MigrateDataProduct("product")
+	models.MigrateDataProduct("order")
+	models.MigrateDataProduct("sell")
 
 }

@@ -18,7 +18,7 @@ type (
 func (c *PemesananController) Get() {
 	var resp RespData
 	var order models.Pemesanan
-	var reqDt = models.RequestPemesanan{
+	var reqDt = models.RequestGet{
 		FromDate: c.Ctx.Input.Query("fromDate"),
 		ToDate:   c.Ctx.Input.Query("toDate"),
 		Query:    c.Ctx.Input.Query("query"),
@@ -68,7 +68,7 @@ func (c *PemesananController) Post() {
 func (c *PemesananController) Put() {
 	var resp RespData
 	var order models.Pemesanan
-	var req models.RequestUpdatePemesanan
+	var req models.RequestUpdate
 
 	err := json.Unmarshal(c.Ctx.Input.RequestBody, &req)
 
